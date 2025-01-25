@@ -1,3 +1,18 @@
-#SPDX-License-Identifier: MIT-0
+#SPDX-License-Identifier: GPL-3
 ---
-# tasks file for ansible-template
+# tasks file for ansible-royco-ntp
+- import_tasks: install.yml
+
+- import_tasks: chrony-baseline.yml
+
+- import_tasks: rpi-config.yml
+  when: ansible_royco_ntp_use_gps
+
+- import_tasks: gps.yml
+  when: ansible_royco_ntp_use_gps
+
+- import_tasks: chrony-server.yml
+  when: ansible_royco_ntp_chrony_server
+
+- import_tasks: ufw.yml
+  when: ansible_royco_ntp_use_ufw

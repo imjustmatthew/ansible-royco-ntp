@@ -1,3 +1,57 @@
-#SPDX-License-Identifier: MIT-0
+#SPDX-License-Identifier: GPL-3.0-only
 ---
-# defaults file for ansible-template
+
+#
+# NTS sources from https://github.com/jauderho/nts-servers
+#
+ansible_royco_ntp_sources_use_anycast: true
+
+ansible_royco_ntp_sources_anycast:
+  - server time.cloudflare.com iburst nts
+
+ansible_royco_ntp_sources_use_us: true
+
+ansible_royco_ntp_sources_us:
+  - server ohio.time.system76.com iburst nts
+  - server oregon.time.system76.com iburst nts
+  - server virginia.time.system76.com iburst nts
+  - server stratum1.time.cifelli.xyz iburst nts
+  - server time.cifelli.xyz iburst nts
+  - server time.txryan.com iburst nts
+  - server ntp1.glypnod.com iburst nts
+
+ansible_royco_ntp_sources_use_global: true
+
+ansible_royco_ntp_sources_global:
+  - server nts.netnod.se iburst nts
+  - server time.bolha.one iburst nts
+  - server nts.teambelgium.net iburst nts
+  - server ntp2.glypnod.com iburst nts
+  - server ntppool1.time.nl iburst nts
+  - server ptbtime1.ptb.de iburst nts
+  - server paris.time.system76.com iburst nts
+
+
+#
+# GPS setup
+#
+ansible_royco_ntp_use_gps: true
+ansible_royco_ntp_gpsd_serial_device: "/dev/ttyS0"
+ansible_royco_ntp_gpsd_pps_device: "/dev/pps0"
+ansible_royco_ntp_gpsd_options: "-n"
+
+#
+# Chrony GPS setup
+#
+ansible_royco_ntp_chrony_local_stratum: 1
+
+#
+# Chrony server setup
+#
+ansible_royco_ntp_chrony_server: true
+ansible_royco_ntp_chrony_server_allow:
+  - any
+ansible_royco_ntp_chrony_server_deny: []
+ansible_royco_ntp_chrony_server_use_nts: false
+
+ansible_royco_ntp_use_ufw: true

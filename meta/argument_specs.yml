@@ -1,0 +1,87 @@
+#SPDX-License-Identifier: GPL-3.0-only
+---
+argument_specs:
+  # role main.yml entry point
+  main:
+    short_description: Main entry point for the role
+    description:
+      - This is the main entrypoint for the role
+    author:
+      - Matthew Roy
+    options:
+      ansible_royco_ntp_sources_anycast:
+        type: "list"
+        elements: "str"
+        required: false
+        description: "Each list item should be a line that can go in chrony's sources.d. See man chrony.conf(5)"
+      ansible_royco_ntp_sources_us:
+        type: "list"
+        elements: "str"
+        required: false
+        description: "Each list item should be a line that can go in chrony's sources.d. See man chrony.conf(5)"
+      ansible_royco_ntp_sources_global:
+        type: "list"
+        elements: "str"
+        required: false
+        description: "Each list item should be a line that can go in chrony's sources.d. See man chrony.conf(5)"
+      ansible_royco_ntp_sources_use_us:
+        type: "bool"
+        required: true
+        description: "Defines whether us-based time sources are used"
+        default: true
+      ansible_royco_ntp_sources_use_anycast:
+        type: "bool"
+        required: true
+        description: "Defines whether anycast time sources are used"
+        default: true
+      ansible_royco_ntp_sources_use_global:
+        type: "bool"
+        required: true
+        description: "Defines whether non-us-based time sources are used"
+        default: true
+      ansible_royco_ntp_use_gps:
+        type: "bool"
+        required: true
+        description: "Defines whether an attached gps is used"
+        default: true
+      ansible_royco_ntp_gpsd_serial_device:
+        type: "string"
+        required: false
+        description: "GPS serial device"
+      ansible_royco_ntp_gpsd_pps_device:
+        type: "string"
+        required: false
+        description: "GPS PPS device"
+      ansible_royco_ntp_gpsd_options:
+        type: "string"
+        required: false
+        description: "Additoinal options passed to GPSD"
+      ansible_royco_ntp_chrony_local_stratum:
+        type: "int"
+        required: false
+        description: "The stratum Chrony should report when offline, defaults to 1 when using a GPS"
+      ansible_royco_ntp_chrony_server:
+        type: "bool"
+        required: true
+        description: "Defines whether Chrony should be configured as a server"
+        default: true
+      ansible_royco_ntp_chrony_server_allow:
+        type: "list"
+        elements: "str"
+        required: false
+        description: "Each list item should be what can come after 'allow' in chrony.conf. Default is ['all']. See man chrony.conf(5)"
+      ansible_royco_ntp_chrony_server_deny:
+        type: "list"
+        elements: "str"
+        required: false
+        description: "Each list item should be what can come after 'deny' in chrony.conf. Default is []. See man chrony.conf(5)"
+      ansible_royco_ntp_chrony_server_use_nts:
+        type: "bool"
+        required: true
+        description: "Defines whether Chrony should be configured for NTS-KE support. Not fully implemnted."
+        default: false
+      ansible_royco_ntp_use_ufw:
+        type: "bool"
+        required: true
+        description: "Defines whether to configure UFW to allow traffic to chrony. Assumes UFW is enabled with a default deny policy."
+        default: true

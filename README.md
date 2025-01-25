@@ -1,31 +1,42 @@
 Chrony NTP Server
 =========
 
-This role is designed to setup a GPS-based Stratum 1 timeserver on a Raspberry Pi using Chrony
+This role is designed to setup a GPS-based Stratum 1 timeserver on a Raspberry Pi using Chrony.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role is designed to run on Ubuntu 24.04 Server on an RPi4 with an [uputronics GPS hat](https://store.uputronics.com/products/raspberry-pi-gps-rtc-expansion-board). 
+
+This role is likely to work with other GPS hats, Rpi versions, and Ubuntu versions, but is not tested.
+
+PRs to add support for other configurations are welcome.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+See [argument_specs.yml](meta/argument_specs.yml) for a list of variables in this role.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Requires `community.general.ufw` if `ansible_royco_ntp_use_ufw: true`
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+This playbook would deploy Chrony as an NTS client and NTP server on hosts without a GPS:
 
-    - hosts: servers
+    - hosts: ntp-servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: ansible-royco-btp, ansible_royco_ntp_use_gps: false }
+
+This playbook would deploy Chrony as an NTS client and NTP server using GPS and excluding non-US sources for time:
+
+    - hosts: ntp-servers
+      roles:
+         - { role: ansible-royco-btp, ansible_royco_ntp_sources_use_global: false }
+
 
 License
 -------

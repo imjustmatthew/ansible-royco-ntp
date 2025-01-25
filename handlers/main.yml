@@ -1,3 +1,19 @@
-#SPDX-License-Identifier: MIT-0
+#SPDX-License-Identifier: GPL-3.0-only
 ---
-# handlers file for ansible-template
+# handlers file for ansible-royco-ntp
+- name: Restart chrony
+  become: true
+  ansible.builtin.service:
+    name: chrony
+    state: restarted
+
+- name: Restart gpsd
+  become: true
+  ansible.builtin.service:
+    name: gpsd
+    state: restarted
+
+- name: Restart system
+  become: true
+  ansible.builtin.reboot:
+    msg: "Rebooting machine with Ansible"

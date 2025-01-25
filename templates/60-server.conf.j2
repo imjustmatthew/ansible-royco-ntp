@@ -1,0 +1,33 @@
+#SPDX-License-Identifier: GPL-3.0-only
+#
+# This file configures Chrony as an NTP server
+#
+
+{% for allow in ansible_royco_ntp_chrony_server_allow %}
+allow {{ allow }}
+{% endfor %}
+
+{% for deny in ansible_royco_ntp_chrony_server_deny %}
+deny {{ deny }}
+{% endfor %}
+
+#1GB, half of the max of 2147483648 (2GB)
+clientloglimit 1073741824
+
+#
+# hardening
+#
+authselectmode require
+#refresh keys every 2 weeks (4 week is the default)
+ntsrefresh 1209600
+#never skip time checks
+nocerttimecheck 0
+
+#
+# NTS setup
+#
+#ntsservercert /etc/ssl/cert
+#ntsserverkey /etc/ssl/key
+#ntsprocesses 2
+#ntsdumpdir /var/lib/chrony
+#ntsntpserver nts.roy.house

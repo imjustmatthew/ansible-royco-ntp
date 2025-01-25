@@ -1,0 +1,47 @@
+#SPDX-License-Identifier: GPL-3.0-only
+---
+- name: Add the user 'gpsd' to dialout
+  become: true
+  ansible.builtin.user:
+    name: gpsd
+    groups: dialout
+    append: yes
+  notify:
+    - Restart gpsd
+
+- name: Copy a new gpds defaults file into place, backing up the original if it differs from the copied version
+  become: true
+  ansible.builtin.template:
+    src: gpsd.j2
+    dest: /etc/default/gpsd
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify:
+    - Restart gpsd
+
+- name: Enable service gpsd and ensure it is not masked
+  become: true
+  ansible.builtin.systemd_service:
+    name: gpsd
+    enabled: true
+    masked: no
+
+- name: Make sure a gpsd is running
+  become: true
+  ansible.builtin.systemd_service:
+    state: started
+    name: gpsd
+
+- name: GPS config for Chrony
+  become: true
+  ansible.builtin.template:
+    src: 50-gps.conf.j2
+    dest: /etc/chrony/conf.d/50-gps.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify:
+    - Restart chrony

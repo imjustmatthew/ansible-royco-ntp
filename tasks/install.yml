@@ -1,0 +1,10 @@
+---
+- name: Install the latest version of chrony and gps tools
+  become: true
+  ansible.builtin.package:
+    name:
+      - chrony
+      - gpsd
+      - gpsd-clients
+      - pps-tools
+    state: latest

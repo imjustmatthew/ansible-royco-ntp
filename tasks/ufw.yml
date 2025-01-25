@@ -1,0 +1,35 @@
+#SPDX-License-Identifier: GPL-3.0-only
+---
+- name: Allow all access to NTP
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: '123'
+    proto: udp
+  when: ansible_royco_ntp_chrony_server
+
+- name: Remove access to NTP
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: '123'
+    proto: udp
+    delete: true
+  when: not ansible_royco_ntp_chrony_server
+
+- name: Allow all access to NTS-KE
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: '4460'
+    proto: tcp
+  when: ansible_royco_ntp_chrony_server and ansible_royco_ntp_chrony_server_use_nts
+
+- name: Remove access to NTS-KE
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: '4460'
+    proto: tcp
+    delete: true
+  when: not ansible_royco_ntp_chrony_server or not ansible_royco_ntp_chrony_server_use_nts

@@ -1,0 +1,32 @@
+#SPDX-License-Identifier: GPL-3.0-only
+---
+- name: Copy a new "chrony.conf" file into place, backing up the original if it differs from the copied version
+  become: true
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: /etc/chrony/chrony.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify:
+    - Restart chrony
+
+- name: NTS sources
+  become: true
+  ansible.builtin.template:
+    src: 50-nts.sources.j2
+    dest: /etc/chrony/sources.d/50-nts.sources
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify:
+    - Restart chrony
+
+- name: Enable service chrony and ensure it is not masked
+  become: true
+  ansible.builtin.systemd_service:
+    name: chrony
+    enabled: true
+    masked: no

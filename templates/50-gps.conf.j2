@@ -1,0 +1,15 @@
+#SPDX-License-Identifier: GPL-3.0-only
+#
+# This file configures the local GPS and PPS for Chromy
+#
+# Chrony provides some suggestions that might be better: https://chrony-project.org/faq.html#_how_should_chronyd_be_configured_with_gpsd
+#
+refclock SHM 0 refid NMEA offset 0.000 precision 1e-3 poll 3 noselect
+refclock PPS {{ ansible_royco_ntp_gpsd_pps_device }} refid PPS lock NMEA poll 3
+
+log tracking measurements statistics
+
+#
+# This is the stratum we will report when we are offline. Since we have GPS, we are going to report {{ ansible_royco_ntp_chrony_local_stratum }}
+#
+local stratum {{ ansible_royco_ntp_chrony_local_stratum }}

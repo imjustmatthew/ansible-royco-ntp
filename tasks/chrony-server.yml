@@ -1,0 +1,18 @@
+#SPDX-License-Identifier: GPL-3.0-only
+---
+- name: Server config for Chrony
+  become: true
+  ansible.builtin.template:
+    src: 60-server.conf.j2
+    dest: /etc/chrony/conf.d/60-server.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart chrony
+
+- name: Make sure a chrony is running
+  become: true
+  ansible.builtin.systemd_service:
+    state: started
+    name: chrony

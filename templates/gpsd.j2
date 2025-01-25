@@ -1,0 +1,10 @@
+# Devices gpsd should collect to at boot time.
+# They need to be read/writeable, either by user gpsd or the group dialout.
+DEVICES="{{ ansible_royco_ntp_gpsd_serial_device }} {{ ansible_royco_ntp_gpsd_pps_device }}"
+
+# Other options you want to pass to gpsd
+GPSD_OPTIONS="{{ ansible_royco_ntp_gpsd_options}}"
+OPTIONS="{{ ansible_royco_ntp_gpsd_options}}"
+
+# Automatically hot add/remove USB GPS devices via gpsdctl
+USBAUTO="true"

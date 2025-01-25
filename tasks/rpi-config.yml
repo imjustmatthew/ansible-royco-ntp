@@ -1,0 +1,43 @@
+#SPDX-License-Identifier: GPL-3.0-only
+---
+
+- name: Copy a new "cmdline.txt" file into place
+  become: true
+  ansible.builtin.replace:
+    path: /boot/firmware/cmdline.txt
+    regexp: ' console=ttyS0 '
+    replace: ' '
+  notify:
+    - Restart system
+
+- name: RTC overly is enabled
+  become: true
+  ansible.builtin.lineinfile:
+    path: /boot/firmware/config.txt
+    line: dtoverlay=i2c-rtc,ds3231
+  notify:
+    - Restart system
+
+- name: PPS-GPIO overly is enabled
+  become: true
+  ansible.builtin.lineinfile:
+    path: /boot/firmware/config.txt
+    line: dtoverlay=pps-gpio,gpiopin=18
+  notify:
+    - Restart system
+
+- name: UART overly is enabled
+  become: true
+  ansible.builtin.lineinfile:
+    path: /boot/firmware/config.txt
+    line: enable_uart=1
+  notify:
+    - Restart system
+
+- name: Ensure pps-gpio module is loaded
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/modules
+    line: pps-gpio
+  notify:
+    - Restart system
