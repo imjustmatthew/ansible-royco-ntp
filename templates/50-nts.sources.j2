@@ -1,9 +1,27 @@
 {% if ansible_royco_ntp_sources_use_anycast %}
-{% for source in ansible_royco_ntp_sources_anycast %} {{ source }} {% endfor %}
+
+#
+# Anycast sources
+#
+{% for source in ansible_royco_ntp_sources_anycast %}
+{{ source }}
+{% endfor %}
 {% endif %}
 {% if ansible_royco_ntp_sources_use_us %}
-{% for source in ansible_royco_ntp_sources_us %} {{ source }} {% endfor %}
+
+#
+# US-based sources
+#
+{% for source in ansible_royco_ntp_sources_us %}
+{{ source }}
+{% endfor %}
 {% endif %}
 {% if ansible_royco_ntp_sources_use_global %}
-{% for source in ansible_royco_ntp_sources_global %} {{ source }} {% endfor %}
+
+#
+# Global sources
+#
+{% for source in ansible_royco_ntp_sources_global %}
+{{ source }}
+{% endfor %}
 {% endif %}

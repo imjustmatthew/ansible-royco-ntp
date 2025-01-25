@@ -36,9 +36,9 @@ ansible_royco_ntp_sources_global:
 # GPS setup
 #
 ansible_royco_ntp_use_gps: true
-ansible_royco_ntp_gpsd_serial_device: "/dev/ttyS0"
-ansible_royco_ntp_gpsd_pps_device: "/dev/pps0"
-ansible_royco_ntp_gpsd_options: "-n"
+ansible_royco_ntp_gpsd_serial_device: /dev/ttyS0
+ansible_royco_ntp_gpsd_pps_device: /dev/pps0
+ansible_royco_ntp_gpsd_options: -n
 
 #
 # Chrony GPS setup
@@ -50,7 +50,7 @@ ansible_royco_ntp_chrony_local_stratum: 1
 #
 ansible_royco_ntp_chrony_server: true
 ansible_royco_ntp_chrony_server_allow:
-  - any
+  - all
 ansible_royco_ntp_chrony_server_deny: []
 ansible_royco_ntp_chrony_server_use_nts: false
 

@@ -20,7 +20,7 @@ See [argument_specs.yml](meta/argument_specs.yml) for a list of variables in thi
 Dependencies
 ------------
 
-Requires `community.general.ufw` if `ansible_royco_ntp_use_ufw: true`
+Requires `community.general.ufw` module if `ansible_royco_ntp_use_ufw: true`
 
 Example Playbook
 ----------------
@@ -29,13 +29,13 @@ This playbook would deploy Chrony as an NTS client and NTP server on hosts witho
 
     - hosts: ntp-servers
       roles:
-         - { role: ansible-royco-btp, ansible_royco_ntp_use_gps: false }
+         - { role: ansible-royco-ntp, ansible_royco_ntp_use_gps: false }
 
 This playbook would deploy Chrony as an NTS client and NTP server using GPS and excluding non-US sources for time:
 
     - hosts: ntp-servers
       roles:
-         - { role: ansible-royco-btp, ansible_royco_ntp_sources_use_global: false }
+         - { role: ansible-royco-ntp, ansible_royco_ntp_sources_use_global: false }
 
 
 License
