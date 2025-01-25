@@ -23,6 +23,7 @@ ntsrefresh 1209600
 #never skip time checks
 nocerttimecheck 0
 
+{% if ansible_royco_ntp_chrony_server_use_nts %}
 #
 # NTS setup
 #
@@ -31,3 +32,5 @@ nocerttimecheck 0
 #ntsprocesses 2
 #ntsdumpdir /var/lib/chrony
 #ntsntpserver nts.roy.house
+
+{% endif %}

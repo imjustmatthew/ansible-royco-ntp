@@ -3,6 +3,32 @@ Chrony NTP Server
 
 This role is designed to setup a GPS-based Stratum 1 timeserver on a Raspberry Pi using Chrony.
 
+Goals:
+
+ - Reasonably hardened client config using NTS sources only
+ - GPS config using PPS with NEMA for startup
+ - Hardened server config that can be publicly exposed
+ - Future: support for being an NTS server
+ - Future: support publishing status
+
+Testing tools:
+
+ - Verify PPS with `sudo ppstest /dev/pps0`
+ - Verify gpsd with `gpsmon`
+ - Verify GPS fix with `cgps -s`
+ - Configure GPS with `ubxtool -P 18.00 --device /dev/ttyS0 <command>` see [man ubxtool](https://gpsd.gitlab.io/gpsd/ubxtool.html)
+ - Verify chrony sources with `watch -n 1 chronyc sources -v`
+
+You may wish to run this one-time GPS module configuration based on [this page](https://conorrobinson.ie/raspberry-pi-ntp-server-part-6/#pifinding-zero-tc):
+
+ - `ubxtool -P 18.00 --device /dev/ttyS0 -p CFG-PMS,0` set full power mode
+ - `ubxtool -P 18.00 --device /dev/ttyS0 -p MODEL,2` set dynamics model to stationary
+ - `ubxtool -P 18.00 --device /dev/ttyS0 -d SBAS` disable SBAS
+ - `ubxtool -P 18.00 --device /dev/ttyS0 -e GALILEO` enable Galileo constellation
+ - `ubxtool -P 18.00 --device /dev/ttyS0 -d GLONASS` disable GLONASS constellation
+ - `ubxtool -P 18.00 --device /dev/ttyS0 -d BDS` disable Beido constellation
+ - `ubxtool -P 18.00 --device /dev/ttyS0 -p SAVE` save to flash
+
 Requirements
 ------------
 
@@ -17,10 +43,12 @@ Role Variables
 
 See [argument_specs.yml](meta/argument_specs.yml) for a list of variables in this role.
 
+All variables have a default set in [defaults/main.yml](defaults/main.yml)
+
 Dependencies
 ------------
 
-Requires `community.general.ufw` module if `ansible_royco_ntp_use_ufw: true`
+Requires `community.general.ufw` module if `ansible_royco_ntp_use_ufw: true`. This module is included by default in ansible, but may not be in ansible-core.
 
 Example Playbook
 ----------------
